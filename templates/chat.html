@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-2" style="margin-left: 20px; padding: 10px ; border: solid darkblue">
+        <div class="container" >
+        {% if user.is_authenticated %}
+            <p style="color: black; font-size: 18px">
+                    Username: <b style="color: white;">{{ user.username }}</b>
+            </p>
+            <p style="color: black; font-size: 18px">
+                    Total Messages:  <b style="color: white;">{{ chat|length }}</b>
+            </p>
+
+            <br>
+
+            <h5 style="color: black; font-size: 18px">
+                Users who participated in chat
+            </h5>
+
+            {% for obj in allusers %}
+                <p>
+                    User Name:  <b style="color: white;">{{ obj.username }}</b>
+                </p>
+            {% endfor %}
+
+        {% endif %}
+        </div>
+      </div>
+        <div class="col-lg-8">
+        <div class="container">
+            <div id="chat-body" class="panel panel-default">
+                <div class="panel-heading" style="color: white; background: darkblue">Speech to text Chat Box</div>
+                <div id="msg-list-div" class="panel-body">
+                    <ul id="msg-list" class="list-group">
+                        {% for obj in chat %}
+                            <b>{{ obj.user }}</b>
+                            {% if obj.user == request.user %}
+                                <li class="text-right list-group-item">{{ obj.message }}</li>
+                            {% else %}
+                                <li class="text-left list-group-item">{{ obj.message }}</li>
+                            {% endif %}
+                        {% empty %}
+                            <li class="text-right list-group-item">No messages yet!</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <br>
+
+            <h3> Send Message </h3>
+
+            <form id="chat-form" method="post" action="{% url 'chat:post' %}" >
+                {% csrf_token %}
+                <div id="chat-bottom" class="input-group">
+    {#                <input type="text" style="border: solid darkblue" id="chat-msg" name="chat-msg" class="form-control"/>#}
+                    <textarea id="chat-msg" name="chat-msg" class="form-control" />
+                    </textarea>
+                    <span class="input-group-btn">
+                    <input class="btn btn-default" id="send" type="submit" style="color: darkblue; padding: 16px" value="Send"/>
+                </span>
+                </div>
+            </form>
+
+            <article>
+            <header style="text-align: center;">
+
+
+            </header>
+
+            <section class="experiment" >
+
+                <br>
+                <h3>
+                    Send Message: Speech to text
+                </h3>
+                <button id="start-recording">Start</button>
+                <button id="stop-recording" disabled>Stop</button>
+
+                <button id="pause-recording" disabled>Pause</button>
+                <button id="resume-recording" disabled>Resume</button>
+
+            </section>
+
+            <section class="experiment">
+                <div id="audios-container"></div>
+            </section>
+
+        </article>
+
+        </div>
+        </div>
+    </div>
+{% endblock content %}

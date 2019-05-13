@@ -1,0 +1,110 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load account %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+
+{#    < Chat js >#}
+    <title>WebRTC Audio Recording using MediaStreamRecorder</title>
+
+    <script src="https://cdn.WebRTC-Experiment.com/MediaStreamRecorder.js"></script>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+
+{#    <link rel="stylesheet" href="https://cdn.webrtc-experiment.com/style.css">#}
+
+
+    {% include "head_css.html" %}
+    {% block extra_css %}{% endblock %}
+    {% block extra_js %}{% endblock %}
+
+{#    < Chat js>#}
+        <style>
+        input {
+            border: 1px solid rgb(46, 189, 235);
+            border-radius: 3px;
+            font-size: 1em;
+            outline: none;
+            padding: .2em .4em;
+            width: 60px;
+            text-align: center;
+        }
+        select {
+            vertical-align: middle;
+            line-height: 1;
+            padding: 2px 5px;
+            height: auto;
+            font-size: inherit;
+            margin: 0;
+        }
+    </style>
+
+</head>
+<body style="background: skyblue">
+{% block navbar %}
+    <nav class="navbar navbar-default" style="background: darkblue; border-color:darkblue">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand"Chat</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li ><a href="/" style="color: white; font-size: 18px">Home</a></li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    {% if request.user.is_anonymous %}
+                        <a href="/accounts/login/">
+                            <button type="button" class="btn navbar-btn btn-success">Sign in</button>
+                        </a>
+                        <a href="/accounts/signup/">
+                            <button type="button" class="btn navbar-btn btn-success">Register</button>
+                        </a>
+                    {% else %}
+                        <a href="/accounts/logout/">
+                            <button type="button" class="btn btn-danger navbar-btn">Log out</button>
+                        </a>
+                    {% endif %}
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+{% endblock navbar %}
+
+
+
+{% block content %}
+    <header class="body-header">
+        <div class="body-header__title">
+            <h1 class="text-center">Simple chat</h1>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row">
+            <p class="lead text-center">Please Login! to the website</p>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+
+
+ {% include "chat_script.html" %}
+<script src="{% static 'chat/js/jquery-1.12.3.js' %}"></script>
+<script src="{% static 'chat/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'chat/js/script.js' %}"></script>
+</body>
+</html>
